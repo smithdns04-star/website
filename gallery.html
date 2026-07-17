@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Exhibition | Premium Gallery</title>
+    <style>
+        /* ==========================================================================
+           1. CORE FONTS, SETUPS & NAVIGATION VARIABLES
+           ========================================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --accent-spice: #e28743;
+            --accent-gold: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Deep Velvet Dynamic Background Ambient Atmosphere */
+        body {
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background: radial-gradient(circle at center, #2e1f1a 0%, #17100d 100%) !important;
+            color: #faf8f6 !important;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(226, 135, 67, 0.15), transparent 70%);
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 160px auto 80px auto;
+            padding: 0 2rem;
+            flex: 1;
+        }
+
+        /* Navigation Matrix */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.8rem 8%;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            transition: var(--transition-smooth);
+            background: rgba(23, 16, 13, 0.95) !important;
+            border-bottom: 1px solid rgba(226, 135, 67, 0.15) !important;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-weight: 700;
+            font-size: 1.6rem;
+            text-decoration: none;
+            color: #faf8f6 !important;
+        }
+
+        .logo span {
+            color: var(--accent-spice);
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            transition: var(--transition-smooth);
+            color: #b5aba2 !important;
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: #fff !important;
+            border-bottom: 1px solid var(--accent-spice) !important;
+            padding-bottom: 4px;
+        }
+
+        /* Exhibition Page Headers */
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        .page-header h1 span { 
+            color: var(--accent-gold); 
+            font-weight: 700; 
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+            border-bottom: 2px dashed rgba(245, 158, 11, 0.4); 
+        }
+
+        .page-header p {
+            color: #b5aba2;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        /* ==========================================================================
+           2. ASYMMETRIC MASONRY MULTI-LAYER GALLERY ENGINE
+           ========================================================================== */
+        .mosaic-gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-auto-rows: 280px; 
+            gap: 2.5rem; 
+        }
+
+        .mosaic-item { 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 16px; 
+            background: #1e1512;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            transition: var(--transition-smooth); 
+        }
+
+        .mosaic-item img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            filter: brightness(0.75) contrast(1.1);
+            transform: scale(1);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease; 
+        }
+
+        /* Layout Grid Dimensional Scales */
+        .span-tall { grid-row: span 2; }
+        .span-wide { grid-column: span 2; }
+
+        /* Interactive Scaling Transitions */
+        .mosaic-item:hover { 
+            transform: translateY(-12px) scale(1.02); 
+            border-color: rgba(226, 135, 67, 0.4);
+            box-shadow: 0 30px 60px rgba(226, 135, 67, 0.15); 
+        }
+
+        .mosaic-item:hover img { 
+            transform: scale(1.08); 
+            filter: brightness(0.95) contrast(1.05);
+        }
+
+        /* Dynamic Title Sliding Plates */
+        .gallery-plate { 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            background: linear-gradient(to top, rgba(19, 13, 11, 0.95) 0%, rgba(19, 13, 11, 0.4) 70%, transparent 100%); 
+            padding: 2.5rem 2rem 2rem 2rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            transform: translateY(10px);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .mosaic-item:hover .gallery-plate { 
+            transform: translateY(0); 
+            opacity: 1; 
+        }
+
+        .gallery-plate h3 { 
+            font-family: var(--font-heading); 
+            font-size: 1.4rem; 
+            color: #fff; 
+            font-weight: 500;
+        }
+
+        .gallery-plate p { 
+            font-size: 0.75rem; 
+            text-transform: uppercase; 
+            color: var(--accent-spice); 
+            letter-spacing: 2px; 
+            font-weight: 700;
+        }
+
+        /* Global Structural Footer */
+        footer { 
+            padding: 2.5rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: auto;
+            background: #17100d; 
+            color: #8c827a; 
+            border-top: 1px solid rgba(226,135,67,0.1); 
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .span-wide { grid-column: span 1; }
+            .span-tall { grid-row: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Glass Header Navigation -->
+    <header class="navbar">
+        <a href="index.html" class="logo"><span>A</span>pex Global</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
+            <li><a href="certifications.html">Certifications</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
+
+    <!-- Master Gallery Display Area -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Visual <span>Exhibition</span></h1>
+            <p>A panoramic display of architectural supply and agro logistics processing centers.</p>
+        </div>
+
+        <div class="mosaic-gallery-grid">
+            <!-- Card 1: Tall Crop Exhibition -->
+            <div class="mosaic-item span-tall">
+                <img src="https://picsum.photos/id/292/600/900" alt="Harvest Operations">
+                <div class="gallery-plate">
+                    <h3>Premium Crop Harvest</h3>
+                    <p>01 / Pure Grain Assets</p>
+                </div>
+            </div>
+
+            <!-- Card 2: Wide Transport Exhibition -->
+            <div class="mosaic-item span-wide">
+                <img src="https://picsum.photos/id/532/900/600" alt="Freight Transport">
+                <div class="gallery-plate">
+                    <h3>Global Distribution</h3>
+                    <p>02 / Logistics Management</p>
+                </div>
+            </div>
+
+            <!-- Card 3: Square Field Management -->
+            <div class="mosaic-item">
+                <img src="https://picsum.photos/id/152/600/600" alt="Eco Cultivation">
+                <div class="gallery-plate">
+                    <h3>Sustainable Agronomy</h3>
+                    <p>03 / Cultivation Fields</p>
+                </div>
+            </div>
+
+            <!-- Card 4: Architecture Infrastructure -->
+            <div class="mosaic-item">
+                <img src="https://picsum.photos/id/122/600/600" alt="Silo Terminal">
+                <div class="gallery-plate">
+                    <h3>Industrial Storage</h3>
+                    <p>04 / Supply Terminals</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Master Layout Footer -->
+    <footer>
+        <p>&copy; 2026 Apex Global Corporation. All international rights reserved.</p>
+    </footer>
+
+</body>
+</html>
